@@ -1,7 +1,9 @@
 import { ImageProps } from "@/interfaces";
 import { useState } from "react";
 
-const useFetchData = <T, R>() => {
+type HasPrompt = { prompt: string }; // minimum shape for R
+
+const useFetchData = <T, R extends HasPrompt>() => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [responseData, setResponseData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -19,20 +21,19 @@ const useFetchData = <T, R>() => {
         }
       });
 
-      if (!resp.ok)
-      {
+      if (!resp.ok) {
         throw new Error('Failed to fetch data');
       }
 
-      const result = await resp.json()
-      setResponseData(result)
-      setGeneratedImages((prev) => [...prev, { imageUrl: result?.message, prompt: body?.prompt }])
-        } catch (err) {
-      setError((err as Error).message)
+      const result = await resp.json();
+      setResponseData(result);
+      setGeneratedImages((prev) => [...prev, { imageUrl: result?.message, prompt: body.prompt }]);
+    } catch (err) {
+      setError((err as Error).message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return {
     isLoading,
@@ -40,8 +41,7 @@ const useFetchData = <T, R>() => {
     error,
     fetchData,
     generatedImages
-  }
-}
-
+  };
+};
 
 export default useFetchData;
