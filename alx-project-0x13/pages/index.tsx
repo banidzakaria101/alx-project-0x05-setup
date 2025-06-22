@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 
   const handleGenerateImage =  () => {
     fetchData('/api/generate-image', { prompt })
-  }
+  };
 
 
   useEffect(() => {
@@ -18,8 +18,6 @@ const Home: React.FC = () => {
       setImageUrl(responseData?.message)
     }
   }, [isLoading])
-
-
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
